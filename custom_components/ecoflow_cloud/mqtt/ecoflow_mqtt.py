@@ -185,6 +185,7 @@ class EcoflowMQTTClient:
             identifiers={(DOMAIN, self.device_sn)},
             manufacturer="EcoFlow",
             name=entry.title,
+            model=self.device_type,
         )
 
         self.client = mqtt_client.Client(client_id=f'ANDROID_-{str(uuid.uuid4()).upper()}_{auth.user_id}',
@@ -249,7 +250,7 @@ class EcoflowMQTTClient:
 
     def on_json_message(self, client, userdata, message):
         try:
-            payload = message.payload.decode("utf-8")
+            payload = message.payload.decode("utf-8", errors='ignore')
             raw = json.loads(payload)
 
             if message.topic == self._data_topic:

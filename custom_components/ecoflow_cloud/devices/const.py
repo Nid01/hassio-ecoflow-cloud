@@ -35,7 +35,6 @@ UNIT_TIMEOUT_OPTIONS_LIMITED = {
     "30 min": 30,
     "1 hr": 60,
     "2 hr": 120,
-    "4 hr": 240,
     "6 hr": 360,
     "12 hr": 720
 }
@@ -44,6 +43,15 @@ AC_TIMEOUT_OPTIONS = {
     "Never": 0,
     "30 min": 30,
     "1 hr": 60,
+    "2 hr": 120,
+    "4 hr": 240,
+    "6 hr": 360,
+    "12 hr": 720,
+    "24 hr": 1440,
+}
+
+AC_TIMEOUT_OPTIONS_LIMITED = {
+    "Never": 0,
     "2 hr": 120,
     "4 hr": 240,
     "6 hr": 360,
@@ -62,13 +70,48 @@ DC_TIMEOUT_OPTIONS = {
     "24 hr": 1440,
 }
 
+DC_TIMEOUT_OPTIONS_LIMITED = {
+    "Never": 0,
+    "2 hr": 120,
+    "4 hr": 240,
+    "6 hr": 360,
+    "12 hr": 720,
+    "24 hr": 1440,
+}
+
 DC_CHARGE_CURRENT_OPTIONS = {
     "4A": 4000,
     "6A": 6000,
     "8A": 8000
 }
 
+MAIN_MODE_OPTIONS = {
+    "Cool": 0,
+    "Heat": 1,
+    "Fan": 2
+}
+
+FAN_MODE_OPTIONS = {
+    "Low": 0,
+    "Medium": 1,
+    "High": 2
+}
+
+REMOTE_MODE_OPTIONS = {
+    "Startup": 1,
+    "Standby": 2,
+    "Shutdown": 3
+}
+
+POWER_SUB_MODE_OPTIONS = {
+    "Max": 0,
+    "Sleep": 1,
+    "Eco": 2,
+    "Manual": 3
+}
+
 COMBINED_BATTERY_LEVEL = "Battery Level"
+COMBINED_BATTERY_LEVEL_F32 = "Battery Level (Precise)"
 BATTERY_CHARGING_STATE = "Battery Charging State"
 
 ATTR_DESIGN_CAPACITY = "Design Capacity (mAh)"
@@ -85,6 +128,8 @@ SLAVE_N_FULL_CAPACITY = "Slave %i Full Capacity"
 SLAVE_N_REMAIN_CAPACITY = "Slave %i Remain Capacity"
 
 MAIN_BATTERY_LEVEL = "Main Battery Level"
+MAIN_BATTERY_LEVEL_F32 = "Main Battery Level (Precise)"
+MAIN_BATTERY_CURRENT = "Main Battery Current"
 TOTAL_IN_POWER = "Total In Power"
 SOLAR_IN_POWER = "Solar In Power"
 SOLAR_1_IN_POWER = "Solar (1) In Power"
@@ -105,6 +150,7 @@ DISCHARGE_DC_ENERGY = "Battery Discharge Energy to DC"
 TOTAL_OUT_POWER = "Total Out Power"
 AC_OUT_POWER = "AC Out Power"
 DC_OUT_POWER = "DC Out Power"
+DC_OUT_VOLTAGE = "DC Out Voltage"
 DC_CAR_OUT_POWER = "DC Car Out Power"
 DC_ANDERSON_OUT_POWER = "DC Anderson Out Power"
 
@@ -119,7 +165,6 @@ USB_3_OUT_POWER = "USB (3) Out Power"
 USB_QC_1_OUT_POWER = "USB QC (1) Out Power"
 USB_QC_2_OUT_POWER = "USB QC (2) Out Power"
 
-
 REMAINING_TIME = "Remaining Time"
 CHARGE_REMAINING_TIME = "Charge Remaining Time"
 DISCHARGE_REMAINING_TIME = "Discharge Remaining Time"
@@ -129,6 +174,7 @@ SOH = "State of Health"
 
 SLAVE_BATTERY_LEVEL = "Slave Battery Level"
 SLAVE_N_BATTERY_LEVEL = "Slave %i Battery Level"
+SLAVE_N_BATTERY_LEVEL_F32 = "Slave %i Battery Level (Precise)"
 
 SLAVE_BATTERY_TEMP = "Slave Battery Temperature"
 SLAVE_N_BATTERY_TEMP = "Slave %i Battery Temperature"
@@ -138,7 +184,6 @@ SLAVE_MAX_CELL_TEMP = "Slave Max Cell Temperature"
 
 SLAVE_N_MIN_CELL_TEMP = "Slave %i Min Cell Temperature"
 SLAVE_N_MAX_CELL_TEMP = "Slave %i Max Cell Temperature"
-
 
 SLAVE_CYCLES = "Slave Cycles"
 SLAVE_N_CYCLES = "Slave %i Cycles"
@@ -158,7 +203,7 @@ SLAVE_MAX_CELL_VOLT = "Slave Max Cell Volts"
 SLAVE_N_BATTERY_VOLT = "Slave %i Battery Volts"
 SLAVE_N_MIN_CELL_VOLT = "Slave %i Min Cell Volts"
 SLAVE_N_MAX_CELL_VOLT = "Slave %i Max Cell Volts"
-
+SLAVE_N_BATTERY_CURRENT = "Slave %i Battery Current"
 
 MAX_CHARGE_LEVEL = "Max Charge Level"
 MIN_DISCHARGE_LEVEL = "Min Discharge Level"
@@ -180,15 +225,20 @@ XBOOST_ENABLED = "X-Boost Enabled"
 AC_ALWAYS_ENABLED = "AC Always On"
 PV_PRIO = "Prio Solar Charging"
 BP_ENABLED = "Backup Reserve Enabled"
+AUTO_FAN_SPEED = "Auto Fan Speed"
+AC_SLOW_CHARGE = "AC Slow Charging"
 
 DC_MODE = "DC Mode"
 
 BATTERY_TEMP = "Battery Temperature"
 MIN_CELL_TEMP = "Min Cell Temperature"
 MAX_CELL_TEMP = "Max Cell Temperature"
+INV_IN_TEMP = "Inverter Inside Temperature"
+INV_OUT_TEMP = "Inverter Outside Temperature"
+DC_CAR_OUT_TEMP = "DC Temperature"
+USB_C_TEMP = "USB C Temperature"
 ATTR_MIN_CELL_TEMP = MIN_CELL_TEMP
 ATTR_MAX_CELL_TEMP = MAX_CELL_TEMP
-
 
 BATTERY_VOLT = "Battery Volts"
 MIN_CELL_VOLT = "Min Cell Volts"
@@ -198,3 +248,8 @@ ATTR_MAX_CELL_VOLT = MAX_CELL_VOLT
 
 BATTERY_AMP = "Battery Current"
 SLAVE_BATTERY_AMP = "Slave Battery Current"
+
+FAN_MODE = "Wind speed"
+MAIN_MODE = "Main mode"
+REMOTE_MODE = "Remote startup/shutdown"
+POWER_SUB_MODE = "Sub-mode"

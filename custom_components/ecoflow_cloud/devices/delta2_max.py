@@ -4,7 +4,7 @@ from . import const, BaseDevice, EntityMigration, MigrationAction
 from .. import EcoflowMQTTClient
 from ..entities import BaseSensorEntity, BaseNumberEntity, BaseSwitchEntity, BaseSelectEntity
 from ..number import ChargingPowerEntity, MinBatteryLevelEntity, MaxBatteryLevelEntity, \
-    MaxGenStopLevelEntity, MinGenStartLevelEntity
+    MaxGenStopLevelEntity, MinGenStartLevelEntity, BatteryBackupLevel
 from ..select import TimeoutDictSelectEntity
 from ..sensor import LevelSensorEntity, RemainSensorEntity, TempSensorEntity, CyclesSensorEntity, \
     InWattsSensorEntity, OutWattsSensorEntity, StatusSensorEntity, MilliVoltSensorEntity, \
@@ -138,15 +138,21 @@ class Delta2Max(BaseDevice):
                                                  "moduleSn": client.device_sn,
                                                  "params": {"minDsgSoc": int(value)}}),
 
+            BatteryBackupLevel(client, "pd.bpPowerSoc", const.BACKUP_RESERVE_LEVEL, 5, 100,
+                               "bms_emsStatus.minDsgSoc", "bms_emsStatus.maxChargeSoc",
+                               lambda value: {"moduleType": 1, "operateType": "watthConfig",
+                                              "params": {"isConfig": 1, "bpPowerSoc": int(value), "minDsgSoc": 0,
+                                                         "minChgSoc": 0}}),
+
             MinGenStartLevelEntity(client, "bms_emsStatus.minOpenOilEbSoc", const.GEN_AUTO_START_LEVEL, 0, 30,
-                                   lambda value: {"moduleType": 2, "operateType": "closeOilSoc",
+                                   lambda value: {"moduleType": 2, "operateType": "openOilSoc",
                                                   "moduleSn": client.device_sn,
-                                                  "params": {"closeOilSoc": value}}),
+                                                  "params": {"openOilSoc": value}}),
 
             MaxGenStopLevelEntity(client, "bms_emsStatus.maxCloseOilEbSoc", const.GEN_AUTO_STOP_LEVEL, 50, 100,
-                                  lambda value: {"moduleType": 2, "operateType": "openOilSoc",
+                                  lambda value: {"moduleType": 2, "operateType": "closeOilSoc",
                                                  "moduleSn": client.device_sn,
-                                                 "params": {"openOilSoc": value}}),
+                                                 "params": {"closeOilSoc": value}}),
 
             ChargingPowerEntity(client, "inv.SlowChgWatts", const.AC_CHARGING_POWER, 200, 2400,
                                 lambda value: {"moduleType": 3, "operateType": "acChgCfg",
@@ -185,7 +191,15 @@ class Delta2Max(BaseDevice):
                                          "params": {"xboost": value}}),
             EnabledEntity(client, "pd.carState", const.DC_ENABLED,
                           lambda value: {"moduleType": 5, "operateType": "mpptCar",
-                                         "params": {"enabled": value}})
+                                         "params": {"enabled": value}}),
+
+            EnabledEntity(client, "pd.bpPowerSoc", const.BP_ENABLED,
+                          lambda value: {"moduleType": 1,
+                                         "operateType": "watthConfig",
+                                         "params": {"bpPowerSoc": value,
+                                                    "minChgSoc": 0,
+                                                    "isConfig": value,
+                                                    "minDsgSoc": 0}}),
         ]
 
     def selects(self, client: EcoflowMQTTClient) -> list[BaseSelectEntity]:

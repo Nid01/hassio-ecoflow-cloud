@@ -117,6 +117,9 @@ class DecicelsiusSensorEntity(TempSensorEntity):
     def _update_value(self, val: Any) -> bool:
         return super()._update_value(int(val) / 10)
 
+class MilliCelsiusSensorEntity(TempSensorEntity):
+    def _update_value(self, val: Any) -> bool:
+        return super()._update_value(int(val) / 100)
 
 class VoltSensorEntity(BaseSensorEntity):
     _attr_device_class = SensorDeviceClass.VOLTAGE
@@ -237,10 +240,26 @@ class OutWattsDcSensorEntity(WattsSensorEntity):
 class InVoltSensorEntity(VoltSensorEntity):
     _attr_icon = "mdi:transmission-tower-import"
 
+class InVoltSolarSensorEntity(VoltSensorEntity):
+    _attr_icon = "mdi:solar-power"
+
+    def _update_value(self, val: Any) -> bool:
+        return super()._update_value(int(val) / 10)
+
+class OutVoltDcSensorEntity(VoltSensorEntity):
+    _attr_icon = "mdi:transmission-tower-export"
+    
+    def _update_value(self, val: Any) -> bool:
+        return super()._update_value(int(val) / 10)      
 
 class InAmpSensorEntity(AmpSensorEntity):
     _attr_icon = "mdi:transmission-tower-import"
 
+class InAmpSolarSensorEntity(AmpSensorEntity):
+    _attr_icon = "mdi:solar-power"
+
+    def _update_value(self, val: Any) -> bool:
+        return super()._update_value(int(val) * 10)
 
 class InEnergySensorEntity(EnergySensorEntity):
     _attr_icon = "mdi:transmission-tower-import"
